@@ -19,7 +19,7 @@ const estadosInmueble = [
 
 // --- Precio base por m² por zona (€/m², estimación 2025) ---
 // Base de datos de precios €/m² por municipio (Ministerio Transportes Q3 2024 + Idealista)
-const PRECIOS_MUNICIPIOS = {
+const PRECIOS_MUNICIPIOS: { [key: string]: number } = {
   "A Coruña": 1900,
   Abrera: 1650,
   Adeje: 3500,
@@ -188,7 +188,7 @@ const PRECIOS_MUNICIPIOS = {
   Otra: 1800,
 };
 
-const PRECIOS_PROVINCIA = {
+const PRECIOS_PROVINCIA: { [key: string]: number } = {
   barcelona: 2800,
   girona: 2200,
   tarragona: 1900,
