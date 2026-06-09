@@ -618,7 +618,7 @@ export default function ValdorValuador() {
 
   const handleReset = () => {
     setStep(0);
-    setForm({ tipo: "", zona: "", zonaCustom: "", metros: 80, habitaciones: 3, banos: 1, extras: [], estado: "", planta: "", direccion: "", precioOverride: null, coords: null, nombre: "", telefono: "", email: "", direccion: "", precioOverride: null, coords: null, nombre: "", telefono: "", email: "" });
+    setForm({ tipo: "", zona: "", zonaCustom: "", metros: 80, habitaciones: 3, banos: 1, extras: [], estado: "", planta: "", direccion: "", precioOverride: null, coords: null, nombre: "", telefono: "", email: "" });
     setResult(null);
   };
 
