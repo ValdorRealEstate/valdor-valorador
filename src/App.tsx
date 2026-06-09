@@ -606,11 +606,45 @@ export default function ValdorValuador() {
     return false;
   };
 
+  const MAKE_WEBHOOK = "https://hook.eu1.make.com/98fql1pvcfa0n5oiqnbqwcvwp2umw4co";
+
+  const enviarLeadMake = async (formData: any, valoracion: any) => {
+    try {
+      await fetch(MAKE_WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          telefono: formData.telefono,
+          email: formData.email,
+          direccion: formData.direccion || "",
+          tipo_inmueble: formData.tipo,
+          metros: formData.metros,
+          habitaciones: formData.habitaciones,
+          banos: formData.banos,
+          extras: (formData.extras || []).join(", "),
+          estado: formData.estado,
+          planta: formData.planta || "",
+          zona: formData.zona || "",
+          precio_minimo: valoracion.rango.min,
+          precio_estimado: valoracion.rango.estimado,
+          precio_optimo: valoracion.rango.max,
+          precio_m2: valoracion.precioM2,
+          fecha: new Date().toISOString(),
+          fuente: "Valorador Valdor Web"
+        })
+      });
+    } catch (e) {
+      console.error("Error enviando lead a Make:", e);
+    }
+  };
+
   const handleNext = () => {
     if (step === 5) {
       const res = { ...calcularValoracion({ ...form }), direccion: form.direccion };
       setResult(res);
       setStep(6);
+      enviarLeadMake(form, res);
       return;
     }
     setStep(s => s + 1);
