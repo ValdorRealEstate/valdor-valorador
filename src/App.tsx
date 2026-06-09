@@ -777,7 +777,7 @@ export default function ValdorValuador() {
               </p>
             </div>
           </div>
-          {step < 7 && (
+          {step < 6 && (
             <>
               <ProgressBar step={step + 1} total={6} />
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "#9B8C7D", margin: "10px 0 0", letterSpacing: "0.08em", textTransform: "uppercase" }}>
@@ -801,7 +801,7 @@ export default function ValdorValuador() {
           transition: "opacity 0.3s ease, transform 0.3s ease"
         }}>
           {stepContent()}
-          {step < 7 && (
+          {step < 6 && (
             <div style={{ marginTop: 32, display: "flex", gap: 10 }}>
               {step > 0 && (
                 <button onClick={() => setStep(s => s - 1)} style={{
