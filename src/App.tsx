@@ -8,59 +8,93 @@ const estadosInmueble = ["A reformar", "Buen estado", "Reformado", "Obra nueva �
 // --- Precio base por m² por zona (€/m², estimación 2025) ---
 // Base de datos de precios €/m² por municipio (Ministerio Transportes Q3 2024 + Idealista)
 const PRECIOS_MUNICIPIOS: { [key: string]: number } = {
-  "A Coruña": 1900, "Abrera": 1650, "Adeje": 3500, "Alacant": 2000,
-  "Albacete": 1300, "Alcalá de Guadaíra": 1600, "Alcalá de Henares": 2100,
-  "Alcobendas": 3500, "Alcorcón": 2400, "Algeciras": 1400, "Alicante": 2000,
-  "Almería": 1500, "Arganda del Rey": 1900, "Arona": 2800, "Ávila": 1200,
-  "Badajoz": 1200, "Badalona": 2600, "Barakaldo": 2400, "Barberà del Vallès": 1900,
-  "Barcelona": 4200, "Barcelona ciudad": 4200, "Benalmádena": 3000, "Benidorm": 2800,
-  "Bilbao": 3200, "Blanes": 2000, "Boadilla del Monte": 3600, "Burgos": 1700,
-  "Cáceres": 1300, "Cádiz": 2000, "Calvià": 4500, "Cambrils": 2200,
-  "Cartagena": 1600, "Castellar del Vallès": 1923, "Castelldefels": 3000,
-  "Castelló de la Plana": 1400, "Castellón de la Plana": 1400, "Cerdanyola del Vallès": 2300,
-  "Ciudad Real": 1200, "Collado Villalba": 2000, "Cornellà de Llobregat": 2700,
-  "Córdoba": 1600, "Cuenca": 1100, "Dos Hermanas": 1700, "Donostia": 4500,
-  "Eivissa": 7200, "El Prat de Llobregat": 2400, "Elche": 1500, "Elx": 1500,
-  "Esparreguera": 1700, "Esplugues de Llobregat": 3000, "Estepona": 3000,
-  "Ferrol": 1100, "Figueres": 1600, "Fuengirola": 3000, "Fuenlabrada": 2000,
-  "Gandía": 1900, "Gavà": 2600, "Getafe": 2300, "Getxo": 3600,
-  "Gijón": 1700, "Girona": 2400, "Granada": 1900, "Granollers": 2100,
-  "Guadalajara": 1800, "Hospitalet de Llobregat": 2900, "Huelva": 1300,
-  "Huesca": 1400, "Ibiza": 7200, "Inca": 2400, "Irún": 2800,
-  "Iruña": 2600, "Jaén": 1100, "Jerez de la Frontera": 1400,
-  "La Laguna": 1900, "Las Palmas de Gran Canaria": 2200, "Las Rozas de Madrid": 3500,
-  "Leganés": 2200, "León": 1400, "Lleida": 1400, "Lloret de Mar": 2200,
-  "Llucmajor": 2600, "Logroño": 1700, "Lorca": 1100, "Lugo": 1200,
-  "Madrid": 4500, "Majadahonda": 3800, "Maó": 3800, "Marbella": 4500,
-  "Marratxí": 3200, "Martorell": 1800, "Mataró": 2100, "Menorca": 3800,
-  "Mérida": 1100, "Mijas": 3200, "Mislata": 1800, "Molins de Rei": 2200,
-  "Mollet del Vallès": 2000, "Mollerussa": 1200, "Montcada i Reixac": 2000,
-  "Móstoles": 2200, "Murcia": 1500, "Nerja": 3500, "Olesa de Montserrat": 1700,
-  "Olot": 1500, "Orihuela": 1400, "Ourense": 1300, "Oviedo": 1800,
-  "Palencia": 1300, "Palma": 3600, "Palma de Mallorca": 3600, "Pamplona": 2600,
-  "Paterna": 1900, "Parla": 1700, "Platja d'Aro": 3500, "Pontevedra": 1700,
-  "Pozuelo de Alarcón": 4800, "Reus": 1600, "Ripollet": 1900,
-  "Rivas-Vaciamadrid": 2400, "Roses": 2500, "Rubí": 1950,
-  "Sabadell": 2000, "Sagunto": 1500, "Salamanca": 1800, "Salt": 1400,
-  "San Sebastián": 4500, "San Sebastián de los Reyes": 2800,
-  "Sant Andreu de la Barca": 1700, "Sant Boi de Llobregat": 2500,
-  "Sant Cugat del Vallès": 3800, "Sant Feliu de Llobregat": 2600,
-  "Sant Joan Despí": 2600, "Sant Just Desvern": 3200,
-  "Sant Quirze del Vallès": 2700, "Sant Vicenç dels Horts": 1800,
-  "Santa Coloma de Gramenet": 2200, "Santa Cruz de Tenerife": 2000,
-  "Santiago de Compostela": 2000, "Santander": 2000, "Sardanyola del Vallès": 2200,
-  "Segovia": 1700, "Sevilla": 2100, "Soria": 1000, "Tarragona": 1800,
-  "Terrassa": 2100, "Teruel": 1000, "Toledo": 1600,
-  "Torrejón de Ardoz": 2000, "Torremolinos": 2800, "Torrent": 1800,
+  "A Coruña": 1900, "Abrera": 1650, "Adeje": 3500,
+  "Alacant": 2000, "Albacete": 1300, "Alcalá de Guadaíra": 1600,
+  "Alcalá de Henares": 2100, "Alcobendas": 3500, "Alcorcón": 2400,
+  "Alella": 3524, "Algeciras": 1400, "Alicante": 2000,
+  "Almería": 1500, "Arganda del Rey": 1900, "Argentona": 1986,
+  "Arona": 2800, "Badajoz": 1200, "Badalona": 2481,
+  "Badia del Vallès": 1963, "Barakaldo": 2400, "Barberà del Vallès": 2355,
+  "Barcelona": 5243, "Barcelona ciudad": 5243, "Begues": 2630,
+  "Benalmádena": 3000, "Benidorm": 2800, "Berga": 1027,
+  "Bigues i Riells": 1648, "Bilbao": 3200, "Blanes": 2000,
+  "Boadilla del Monte": 3600, "Burgos": 1700, "Cabrera d'Anoia": 1234,
+  "Cabrils": 2610, "Caldes de Montbui": 2185, "Calella": 2529,
+  "Calvià": 4500, "Cambrils": 2200, "Canet de Mar": 2480,
+  "Canovelles": 1444, "Canyelles": 1723, "Capellades": 1276,
+  "Cardedeu": 2458, "Cartagena": 1600, "Castellar del Vallès": 2071,
+  "Castellbell i el Vilar": 1253, "Castellbisbal": 2080, "Castelldefels": 4405,
+  "Castelló de la Plana": 1400, "Castellón de la Plana": 1400, "Cerdanyola del Vallès": 3095,
+  "Cervelló": 1943, "Ciudad Real": 1200, "Collado Villalba": 2000,
+  "Corbera de Llobregat": 1799, "Cornellà de Llobregat": 3026, "Cubelles": 2536,
+  "Cuenca": 1100, "Cáceres": 1300, "Cádiz": 2000,
+  "Córdoba": 1600, "Donostia": 4500, "Dos Hermanas": 1700,
+  "Dosrius": 1772, "Eivissa": 7200, "El Masnou": 3333,
+  "El Prat de Llobregat": 3127, "Elche": 1500, "Elx": 1500,
+  "Esparreguera": 1940, "Esplugues de Llobregat": 4177, "Estepona": 3000,
+  "Ferrol": 1100, "Figueres": 1600, "Fuengirola": 3000,
+  "Fuenlabrada": 2000, "Gandía": 1900, "Gavà": 3517,
+  "Gelida": 1527, "Getafe": 2300, "Getxo": 3600,
+  "Gijón": 1700, "Girona": 2400, "Granada": 1900,
+  "Granollers": 2280, "Guadalajara": 1800, "Hospitalet de Llobregat": 2951,
+  "Huelva": 1300, "Huesca": 1400, "Ibiza": 7200,
+  "Inca": 2400, "Iruña": 2600, "Irún": 2800,
+  "Jaén": 1100, "Jerez de la Frontera": 1400, "L'Ametlla del Vallès": 2067,
+  "La Garriga": 2533, "La Laguna": 1900, "La Llagosta": 1961,
+  "La Roca del Vallès": 2476, "La Torre de Claramunt": 1152, "Las Palmas de Gran Canaria": 2200,
+  "Las Rozas de Madrid": 3500, "Leganés": 2200, "Les Botigues de Sitges": 4333,
+  "Les Franqueses del Vallès": 2213, "León": 1400, "Lleida": 1400,
+  "Llinars del Vallès": 1930, "Lliçà d'Amunt": 1897, "Lliçà de Vall": 1828,
+  "Lloret de Mar": 2200, "Llucmajor": 2600, "Logroño": 1700,
+  "Lorca": 1100, "Lugo": 1200, "Madrid": 4500,
+  "Majadahonda": 3800, "Malgrat de Mar": 2086, "Manlleu": 1025,
+  "Manresa": 1460, "Marbella": 4500, "Marratxí": 3200,
+  "Martorell": 1988, "Martorelles": 2727, "Masquefa": 1751,
+  "Matadepera": 2527, "Mataró": 2286, "Maó": 3800,
+  "Mediona": 1103, "Menorca": 3800, "Mijas": 3200,
+  "Mislata": 1800, "Moià": 1598, "Molins de Rei": 3328,
+  "Mollerussa": 1200, "Mollet del Vallès": 2119, "Montcada i Reixac": 2035,
+  "Montornès del Vallès": 2155, "Murcia": 1500, "Mérida": 1100,
+  "Móstoles": 2200, "Nerja": 3500, "Olesa de Montserrat": 2039,
+  "Olot": 1500, "Orihuela": 1400, "Otra": 1800,
+  "Ourense": 1300, "Oviedo": 1800, "Palau-Solità i Plegamans": 2225,
+  "Palencia": 1300, "Pallejà": 2490, "Palma": 3600,
+  "Palma de Mallorca": 3600, "Pamplona": 2600, "Parets del Vallès": 2512,
+  "Parla": 1700, "Paterna": 1900, "Piera": 1514,
+  "Pineda de Mar": 2325, "Platja d'Aro": 3500, "Polinyà": 2589,
+  "Pontevedra": 1700, "Pozuelo de Alarcón": 4800, "Premià de Dalt": 2845,
+  "Premià de Mar": 2627, "Reus": 1600, "Ripollet": 2222,
+  "Rivas-Vaciamadrid": 2400, "Roda de Ter": 1345, "Roses": 2500,
+  "Rubí": 2332, "Sabadell": 2272, "Sagunto": 1500,
+  "Salamanca": 1800, "Sallent": 906, "Salt": 1400,
+  "San Sebastián": 4500, "San Sebastián de los Reyes": 2800, "Sant Andreu de la Barca": 2702,
+  "Sant Andreu de Llavaneres": 3120, "Sant Boi de Llobregat": 2588, "Sant Cebrià de Vallalta": 2134,
+  "Sant Celoni": 2001, "Sant Cugat del Vallès": 4962, "Sant Esteve Sesrovires": 2122,
+  "Sant Feliu de Llobregat": 3398, "Sant Fost de Campsentelles": 1758, "Sant Joan Despí": 3753,
+  "Sant Just Desvern": 4460, "Sant Pere de Ribes": 2586, "Sant Pere de Vilamajor": 1522,
+  "Sant Pol de Mar": 2723, "Sant Quirze del Vallès": 2700, "Sant Vicenç de Montalt": 3240,
+  "Sant Vicenç dels Horts": 2379, "Santa Coloma de Cervelló": 2461, "Santa Coloma de Gramenet": 2428,
+  "Santa Cruz de Tenerife": 2000, "Santa Eulàlia de Ronçana": 1853, "Santa Margarida de Montbui": 1125,
+  "Santa Margarida i els Monjos": 1538, "Santa Perpètua de Mogoda": 2098, "Santa Susanna": 2011,
+  "Santander": 2000, "Santiago de Compostela": 2000, "Segovia": 1700,
+  "Sentmenat": 1949, "Seva": 1959, "Sevilla": 2100,
+  "Sitges": 5257, "Soria": 1000, "Tarragona": 1800,
+  "Teià": 3091, "Terrassa": 2138, "Teruel": 1000,
+  "Tiana": 3301, "Toledo": 1600, "Tona": 2078,
+  "Tordera": 1650, "Torrejón de Ardoz": 2000, "Torrelles de Foix": 1114,
+  "Torrelles de Llobregat": 2288, "Torremolinos": 2800, "Torrent": 1800,
   "Torrevieja": 1800, "Tortosa": 1100, "Tres Cantos": 3200,
-  "Valdemoro": 1800, "Valencia": 2300, "Valladolid": 1700, "Valls": 1300,
-  "Vacarisses": 1750, "Vélez-Málaga": 1600, "Viladecans": 2400,
-  "Vila-seca": 1900, "Vitoria-Gasteiz": 2600, "Vigo": 1900,
-  "Zamora": 1100, "Zaragoza": 1800, "Otra": 1800,
+  "Vacarisses": 1791, "Valdemoro": 1800, "Valencia": 2300,
+  "Valladolid": 1700, "Vallirana": 1893, "Valls": 1300,
+  "Vic": 2314, "Vigo": 1900, "Vila-seca": 1900,
+  "Viladecans": 2960, "Vilafranca del Penedès": 2146, "Vilanova del Camí": 1659,
+  "Vilanova del Vallès": 1810, "Vilanova i la Geltrú": 2777, "Vilassar de Dalt": 2571,
+  "Vilassar de Mar": 3754, "Vitoria-Gasteiz": 2600, "Vélez-Málaga": 1600,
+  "Zamora": 1100, "Zaragoza": 1800, "Ávila": 1200,
 };
 
 const PRECIOS_PROVINCIA: { [key: string]: number } = {
-  "barcelona": 2800, "girona": 2200, "tarragona": 1900, "lleida": 1400,
+  "barcelona": 2300, "girona": 2200, "tarragona": 1900, "lleida": 1400,
   "baleares": 3800, "madrid": 3200, "valencia": 1900, "alicante": 2200,
   "castellón": 1400, "sevilla": 1900, "málaga": 2800, "granada": 1700,
   "córdoba": 1500, "almería": 1600, "cádiz": 1800, "huelva": 1300,
@@ -75,19 +109,19 @@ const PRECIOS_PROVINCIA: { [key: string]: number } = {
 // Cada zona: [nombre, precio_m2, [[lat,lng]...]]
 const ZONAS_PRECIO_COORDS: [string, number, number[][]][] = [
   // Barcelona
-  ["Pedralbes / Zona Alta", 6500, [[41.388,2.105],[41.405,2.105],[41.410,2.125],[41.395,2.130],[41.385,2.120]]],
-  ["Sarrià - Sant Gervasi", 5800, [[41.390,2.125],[41.410,2.125],[41.415,2.145],[41.400,2.155],[41.388,2.140]]],
-  ["Diagonal Premium", 5600, [[41.378,2.128],[41.415,2.128],[41.418,2.200],[41.382,2.204]]],
-  ["Eixample", 5200, [[41.370,2.146],[41.378,2.146],[41.380,2.180],[41.372,2.182]]],
-  ["Gràcia", 4800, [[41.398,2.146],[41.418,2.146],[41.420,2.170],[41.400,2.172]]],
-  ["Ciutat Vella", 4500, [[41.373,2.168],[41.386,2.168],[41.388,2.186],[41.375,2.186]]],
-  ["Poblenou / 22@", 4200, [[41.388,2.184],[41.406,2.184],[41.408,2.218],[41.390,2.218]]],
-  ["Sants - Montjuïc", 3400, [[41.358,2.128],[41.378,2.128],[41.380,2.164],[41.360,2.167]]],
-  ["Sant Martí", 3600, [[41.388,2.172],[41.412,2.172],[41.414,2.222],[41.390,2.222]]],
-  ["Horta - Guinardó", 3200, [[41.406,2.146],[41.436,2.146],[41.438,2.178],[41.408,2.180]]],
-  ["Sant Andreu", 3000, [[41.418,2.172],[41.440,2.172],[41.442,2.202],[41.420,2.207]]],
-  ["Nou Barris", 2600, [[41.426,2.146],[41.458,2.146],[41.460,2.188],[41.428,2.190]]],
-  ["Besòs / La Mina", 2200, [[41.403,2.208],[41.426,2.208],[41.428,2.234],[41.405,2.234]]],
+  ["Pedralbes / Zona Alta", 7000, [[41.388,2.105],[41.405,2.105],[41.410,2.125],[41.395,2.130],[41.385,2.120]]],
+  ["Sarrià - Sant Gervasi", 7051, [[41.390,2.125],[41.410,2.125],[41.415,2.145],[41.400,2.155],[41.388,2.140]]],
+  ["Diagonal Premium", 6400, [[41.378,2.128],[41.415,2.128],[41.418,2.200],[41.382,2.204]]],
+  ["Eixample", 6496, [[41.370,2.146],[41.378,2.146],[41.380,2.180],[41.372,2.182]]],
+  ["Gràcia", 5643, [[41.398,2.146],[41.418,2.146],[41.420,2.170],[41.400,2.172]]],
+  ["Ciutat Vella", 4805, [[41.373,2.168],[41.386,2.168],[41.388,2.186],[41.375,2.186]]],
+  ["Poblenou / 22@", 4800, [[41.388,2.184],[41.406,2.184],[41.408,2.218],[41.390,2.218]]],
+  ["Sants - Montjuïc", 4574, [[41.358,2.128],[41.378,2.128],[41.380,2.164],[41.360,2.167]]],
+  ["Sant Martí", 5097, [[41.388,2.172],[41.412,2.172],[41.414,2.222],[41.390,2.222]]],
+  ["Horta - Guinardó", 4076, [[41.406,2.146],[41.436,2.146],[41.438,2.178],[41.408,2.180]]],
+  ["Sant Andreu", 3940, [[41.418,2.172],[41.440,2.172],[41.442,2.202],[41.420,2.207]]],
+  ["Nou Barris", 3193, [[41.426,2.146],[41.458,2.146],[41.460,2.188],[41.428,2.190]]],
+  ["Besòs / La Mina", 2500, [[41.403,2.208],[41.426,2.208],[41.428,2.234],[41.405,2.234]]],
   // Madrid
   ["Salamanca (Madrid)", 6200, [[40.422,-3.680],[40.438,-3.680],[40.440,-3.658],[40.424,-3.656]]],
   ["Chamberí (Madrid)", 5500, [[40.430,-3.706],[40.446,-3.706],[40.448,-3.683],[40.432,-3.681]]],
@@ -149,10 +183,10 @@ const MULT_TIPO = {
 
 // Multiplicadores por estado
 const MULT_ESTADO = {
-  "A reformar":              0.82,
-  "Buen estado":             0.93,
-  "Reformado":               1.05,
-  "Obra nueva · Seminuevo":  1.15,
+  "A reformar":              0.85,
+  "Buen estado":             0.98,
+  "Reformado":               1.07,
+  "Obra nueva · Seminuevo":  1.16,
 };
 
 // Multiplicadores por planta
@@ -452,12 +486,12 @@ function ResultBlock({ result, onReset }: { result: any, onReset: any }) {
 
 // Precios por distrito para grandes ciudades
 const PRECIOS_DISTRITO = {
-  // Barcelona distritos
-  "eixample": 5200, "sarrià": 5800, "sarria": 5800, "les corts": 5600,
-  "gràcia": 4800, "gracia": 4800, "ciutat vella": 4500, "sants": 3400,
-  "sant martí": 3800, "sant marti": 3800, "horta": 3200, "guinardó": 3200,
-  "nou barris": 2600, "sant andreu": 3000, "besòs": 2200, "besos": 2200,
-  "la mina": 2200, "poblenou": 4200, "diagonal": 5800, "pedralbes": 6500,
+  // Barcelona distritos (idealista may 2026)
+  "eixample": 6496, "sarrià": 7051, "sarria": 7051, "les corts": 6536,
+  "gràcia": 5643, "gracia": 5643, "ciutat vella": 4805, "sants": 4574,
+  "sant martí": 5097, "sant marti": 5097, "horta": 4076, "guinardó": 4076,
+  "nou barris": 3193, "sant andreu": 3940, "besòs": 2500, "besos": 2500,
+  "la mina": 2500, "poblenou": 4800, "diagonal": 6400, "pedralbes": 7000,
   // Madrid distritos
   "salamanca": 6200, "chamberí": 5500, "chamberi": 5500, "retiro": 5800,
   "centro": 5200, "chamartín": 5800, "chamartin": 5800, "moncloa": 5000,
@@ -465,15 +499,40 @@ const PRECIOS_DISTRITO = {
   "usera": 2800, "latina": 3000, "villaverde": 2200, "moratalaz": 3200,
 };
 
+const PRECIOS_BARRIO: { [muni: string]: { [barrio: string]: number } } = {
+  "Sabadell": {
+    "centre": 2824, "la creu alta": 2663, "la concòrdia": 2284, "can rull": 2284,
+    "la creu de barberà": 2151, "eixample": 2151, "avinguda": 2151,
+    "can feu": 1974, "arraona": 1974, "ca n'oriac": 1861, "can puiggener": 1861,
+    "torre-romeu": 1448, "poble nou": 1448, "poblenou": 1448,
+  },
+  "Terrassa": {
+    "centre": 2561, "nord-oest": 2347, "nord-oeste": 2347, "sud": 2132,
+    "nord-est": 2038, "nord-este": 2038, "ponent": 1994, "llevant": 1834,
+  },
+};
+
 function extractZonaFromPlace(place: any) {
   if (!place || !place.address_components) return null;
   const components = place.address_components;
   // Try to get sublocality (barrio/distrito) first
   const district = components.find(c => c.types.includes("sublocality_level_1") || c.types.includes("sublocality"));
+  const neighborhood = components.find(c => c.types.includes("neighborhood"));
   const locality = components.find(c => c.types.includes("locality"));
   const adminArea = components.find(c => c.types.includes("administrative_area_level_2"));
-  
-  // Check for district price first
+
+  // Barrio acotado por municipio (Sabadell, Terrassa...) — sin colisiones entre pueblos
+  if (locality && PRECIOS_BARRIO[locality.long_name]) {
+    const barrios = PRECIOS_BARRIO[locality.long_name];
+    const cands = [district, neighborhood].filter(Boolean);
+    for (const c of cands) {
+      const name = c.long_name.toLowerCase();
+      const bKey = Object.keys(barrios).find(k => name.includes(k) || k.includes(name));
+      if (bKey) return { zona: locality.long_name + " - " + c.long_name, precioOverride: barrios[bKey] };
+    }
+  }
+
+  // Check for district price first (Barcelona/Madrid por nombre)
   if (district) {
     const dName = district.long_name.toLowerCase();
     const dKey = Object.keys(PRECIOS_DISTRITO).find(k => dName.includes(k) || k.includes(dName));
