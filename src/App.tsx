@@ -298,6 +298,8 @@ function calcularValoracion(form: any) {
     precioM2: `€${precioM2.toLocaleString("es-ES")}/m²`,
     factores: factores.slice(0, 4),
     recomendacion,
+    esMediaMunicipal: !form.precioOverride,
+    municipio: (form.zona && form.zona !== "Otra") ? form.zona : "",
   };
 }
 
@@ -367,6 +369,15 @@ function ResultBlock({ result, onReset }: { result: any, onReset: any }) {
   return (
     <div>
       {/* Precio */}
+      {result.esMediaMunicipal && (
+        <div style={{
+          background: "#FBF8F3", border: "1px solid #E8D9C4", borderLeft: "3px solid #B8956A",
+          borderRadius: 10, padding: "12px 16px", marginBottom: 16,
+          fontFamily: "'DM Sans', sans-serif", fontSize: 13, lineHeight: 1.5, color: "#6B6B6B"
+        }}>
+          No hemos podido localizar tu zona exacta{result.municipio ? " dentro de " + result.municipio : ""}, así que esta valoración se ha calculado sobre el <strong style={{ color: "#1A1A1A" }}>precio medio del municipio</strong>. Una visita gratuita nos permite afinarla según tu zona concreta.
+        </div>
+      )}
       <div style={{
         background: "linear-gradient(135deg, #FAF4EE 0%, #FFF8F0 100%)",
         border: "1px solid #E8D9C4", borderRadius: 16, padding: "28px 24px", marginBottom: 20,
@@ -704,8 +715,7 @@ export default function ValdorValuador() {
       setResult(res);
       setStep(6);
       enviarLeadMake(form, res);
-       if ((window as any).fbq) (window as any).fbq("track", "Lead");
-       return;
+      return;
     }
     setStep(s => s + 1);
   };
