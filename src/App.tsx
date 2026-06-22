@@ -704,7 +704,8 @@ export default function ValdorValuador() {
       setResult(res);
       setStep(6);
       enviarLeadMake(form, res);
-      return;
+       if ((window as any).fbq) (window as any).fbq("track", "Lead");
+       return;
     }
     setStep(s => s + 1);
   };
